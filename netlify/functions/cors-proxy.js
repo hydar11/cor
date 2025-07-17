@@ -29,13 +29,20 @@ exports.handler = async function(event, context) {
 
     const responseBody = await response.text();
 
+    // Convert all header values to strings
+    const rawHeaders = response.headers.raw ? response.headers.raw() : {};
+    const stringHeaders = {};
+    for (const [key, value] of Object.entries(rawHeaders)) {
+      stringHeaders[key] = Array.isArray(value) ? value.join(', ') : String(value);
+    }
+
     return {
       statusCode: response.status,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': '*',
-        ...response.headers.raw && response.headers.raw()
+        ...stringHeaders
       },
       body: responseBody,
     };
