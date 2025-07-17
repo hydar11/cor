@@ -1,0 +1,8 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/cors-proxy"
+  to = "/.netlify/functions/cors-proxy"
+  status = 200
+  force = true
